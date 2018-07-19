@@ -82,7 +82,7 @@ $(function() {
          });
 
          it('at least one entry within the feed container', function(done) {
-            expect($('.entry').length).not.toBe(0);
+            expect($('.feed .entry').length).toBeGreaterThan(0);
             done();
          });
     });
@@ -101,15 +101,11 @@ $(function() {
          beforeEach(function(done){
             loadFeed(0, function() {
                 feedContentsPre = $('.feed')[0].innerText;
-                done();
+                loadFeed(1, function() {    //Call the 2nd loadfeed function in the callback of first loadFeed function ensuring the new feeds are loaded after the loading of old feeds is complete
+                    feedContentsNew = $('.feed')[0].innerText;
+                    done();
+                });
             });
-         });
-
-         beforeEach(function(done){
-            loadFeed(1, function() {
-                feedContentsNew = $('.feed')[0].innerText;
-                done();
-            });            
          });
 
          it('content changes when a new feed is loaded', function(done) {
